@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="info">
+   <properties>
+      <property name="LOG_HOME">/SideProject-Logs/E-Commerce-SpringBoot/logs</property>
+      <property name="LOG_PATTERN">[%d{yyyy-MM-dd_HH:mm:ss}][%p][%F::%M][%L]-%m%n</property>
+      <property name="LOG_JSON_PATTERN">{"t":"%d{yyyy-MM-dd HH:mm:ss.SSS}","m":%m}%n</property>
+      <property name="DEL_DAY">7d</property>
+      <property name="DEL_MONTH">30d</property>
+   </properties>
+
+   <appenders>
+      <Console name="console" target="SYSTEM_OUT">
+          <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY" />
+          <PatternLayout pattern="${LOG_PATTERN}" />
+      </Console>
+
+	  <!-- EX:training.log.2023-03-06 -->
+      <RollingFile name="file" fileName="${LOG_HOME}/console/E-Commerce-SpringBoot.log" filePattern="${LOG_HOME}/console/E-Commerce-SpringBoot.%d{yyyy-MM-dd}.log">
+          <PatternLayout pattern="${LOG_PATTERN}" />
+          <Policies>
+             <TimeBasedTriggeringPolicy />
+          </Policies>
+          <DefaultRolloverStrategy>
+             <!-- maxDepth="1"：指定需要清理的日誌文件的最大深度，這裡設置為 1 表示只清理根目錄下的文件，不會遞迴清理子目錄中的文件 -->
+             <Delete basePath="${LOG_HOME}/console/" maxDepth="1">
+                <IfFileName glob="E-Commerce-SpringBoot.*.log" />
+                <!-- 指定最後更新保留天數的log檔案 -->
+                <IfLastModified age="${DEL_DAY}" />
+             </Delete>
+          </DefaultRolloverStrategy>
+      </RollingFile>
+      
+      <RollingFile name="errorThrowable" fileName="${LOG_HOME}/Throwable/errorThrowable.log" filePattern="${LOG_HOME}/Throwable/errorThrowable.log.%d{yyyy-MM-dd}">
+          <PatternLayout pattern="${LOG_PATTERN}" />
+          <Policies>
+             <TimeBasedTriggeringPolicy />
+          </Policies>
+          <DefaultRolloverStrategy>
+             <Delete basePath="${LOG_HOME}/Throwable/" maxDepth="1">
+                <IfFileName glob="errorThrowable.log.*" />
+                <IfLastModified age="${DEL_DAY}" />
+             </Delete>
+          </DefaultRolloverStrategy>
+      </RollingFile>      
+   </appenders>
+
+   <loggers>
+   	  <!--
+		OFF：最高等級，用於關閉所有日誌輸出。
+		FATAL：表示非常嚴重的錯誤，導致應用程序無法繼續運行。
+		ERROR：表示錯誤事件，但不會導致應用程序停止運行。
+		WARN：表示警告事件，通常表示一些不正常但不嚴重的情況。
+		INFO：表示一般性訊息，用於輸出一些關鍵信息，以便於追踪應用程序的運行狀態。
+		DEBUG：表示調試信息，用於輸出一些調試信息，以便於分析應用程序的運行狀態。
+		TRACE：最低等級，用於輸出最詳細的調試信息，通常用於問題排查。 
+   	   -->
+      <root level="info">
+          <AppenderRef ref="console" />
+          <AppenderRef ref="file" />
+      </root>
+      
+      <!-- 自訂義logger -->
+      <logger name="errorThrowable-log" level="info" additivity="false">
+          <AppenderRef ref="console" />
+          <AppenderRef ref="errorThrowable" />
+      </logger>
+      
+   </loggers>
+</configuration>

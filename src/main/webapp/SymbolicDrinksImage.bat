@@ -1,0 +1,1 @@
+mklink /d .\goodsImg \SideProject-Imgs\VendingMachine\DrinksImage
