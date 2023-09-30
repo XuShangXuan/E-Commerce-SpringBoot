@@ -1,0 +1,49 @@
+server:
+  port: 8085
+  servlet:
+    context-path: /E-Commerce-SpringBoot
+    session:
+      timeout: 30m
+  tomcat:
+    threads:
+      max: 200
+    uri-encoding: UTF-8
+    basedir: /SideProject-Logs/E-Commerce-SpringBoot/logs/access_log
+    accesslog:
+      enabled: true
+      pattern: '{"Local IP":"%A","Date time":"%{yyyy-MM-dd HH:mm:ss.SSS}t","Request method":"%m","URL":"%U","HTTP status":%s,"session ID":%S,"Bytes sent":%b,"Process time":%D,"Thread name":"%I"}'
+      suffix: .log
+      
+spring:
+  profiles:
+    active: local
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+
+#mybatis:
+# mapper-locations: classpath:/mapper/*.xml
+#  configuration:
+#   map-underscore-to-camel-case: true
+
+database:
+  datasource:
+    oracle:
+      jdbc-url: jdbc:oracle:thin:@localhost:1521:xe
+      username: LOCAL
+      password: root
+      driverClassName: oracle.jdbc.driver.OracleDriver
+      maximumPoolSize: 2
+      connectionTimeout: 30000
+    mysql:
+      jdbc-url: jdbc:mysql://localhost:3306/local_db
+      username: root
+      password: root
+      driverClassName: com.mysql.cj.jdbc.Driver
+      maximumPoolSize: 2
+      connectionTimeout: 30000
+      

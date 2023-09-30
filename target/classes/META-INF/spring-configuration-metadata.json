@@ -1,0 +1,18 @@
+{
+  "groups": [
+    {
+      "name": "database.datasource.mysql",
+      "type": "javax.sql.DataSource",
+      "sourceType": "com.SideProject.ECommerce.config.DB_DataSourceConfig",
+      "sourceMethod": "public javax.sql.DataSource postgreDataSourceBackend() "
+    },
+    {
+      "name": "database.datasource.oracle",
+      "type": "javax.sql.DataSource",
+      "sourceType": "com.SideProject.ECommerce.config.DB_DataSourceConfig",
+      "sourceMethod": "public javax.sql.DataSource oracleDataSource() "
+    }
+  ],
+  "properties": [],
+  "hints": []
+}
