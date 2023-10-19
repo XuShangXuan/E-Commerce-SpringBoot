@@ -151,7 +151,7 @@ public class FrontEndService {
 		// 新增和更新數量不能為空，且新增和更新的數量必須一樣
 		if(!goodsList.isEmpty() && goodsList.size() == ordersList.size()) {
 			
-			// Batch Input,Batch Update
+			// Batch Insert,Batch Update
 			goodsInfoDao.saveAll(goodsList);
 			orderInfoDao.saveAll(ordersList);
 			
