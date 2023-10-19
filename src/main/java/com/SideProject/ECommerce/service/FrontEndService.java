@@ -79,7 +79,7 @@ public class FrontEndService {
 	@Transactional(transactionManager = "oracleTransactionManager", rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public CheckoutCompleteInfo checkoutGoods(MemberInfoVo memberInfo, OrderCustomer customer, List<ShoppingCartGoodsVo> cartGoods) {
 		
-		//只取顧客選的商品ID及選購數量
+		// 只取顧客選的商品ID及選購數量
 		Map<Long, Long> newCarGoods = cartGoods.stream()
                 .collect(Collectors.toMap(
                         ShoppingCartGoodsVo::getGoodsID,  // 取得ID作為key
@@ -102,23 +102,30 @@ public class FrontEndService {
 			
 				BeverageGoods dbGoods = optGoods.get();
 				
-				//取得DB中該商品庫存數量
+				// 取得DB中該商品庫存數量
 				long dbGoodsQuantity = dbGoods.getQuantity();
 		
 				// 購買的數量不得超過資料庫中的庫存數量，最多只能買當下的庫存的數量
 		        long purchaseQuantity = Math.min(dbGoodsQuantity, singleCarGoods.getValue());
 				
-		        //更新後庫存的數量
+		        // 更新後庫存的數量
 		        long updateStock = dbGoodsQuantity - purchaseQuantity;
 		        
 				// 如果能購買的數量小於0或是更新後庫存數量為負數,就不建立該商品的訂單
 				if(purchaseQuantity > 0 && updateStock >= 0) {
 					
-					//更新商品數量
-					dbGoods.setQuantity(updateStock);
-					goodsList.add(dbGoods);
+					// 更新商品數量
+					// 不直接更新dbGoods以免造成資料庫連動
+					BeverageGoods goods = BeverageGoods.builder()
+							.goodsID(dbGoods.getGoodsID()).goodsName(dbGoods.getGoodsName())
+							.description(dbGoods.getDescription()).price(dbGoods.getPrice())
+							.quantity(updateStock).imageName(dbGoods.getImageName())
+							.status(dbGoods.getStatus()).beverageOrders(dbGoods.getBeverageOrders())
+							.build();
 					
-					//新增訂單
+					goodsList.add(goods);
+					
+					// 新增訂單
 					long buyPrice = dbGoods.getPrice() * purchaseQuantity;
 					
 					BeverageOrder order = BeverageOrder.builder()
@@ -128,23 +135,23 @@ public class FrontEndService {
 					
 					ordersList.add(order);
 					
-					//客人購買的商品資訊
-					ShoppingCartGoodsVo goods = ShoppingCartGoodsVo.builder()
+					// 客人購買的商品資訊
+					ShoppingCartGoodsVo goodsInfo = ShoppingCartGoodsVo.builder()
 							.goodsID(dbGoods.getGoodsID()).goodsName(dbGoods.getGoodsName())
 							.description(dbGoods.getDescription()).price(dbGoods.getPrice())
 							.quantity(purchaseQuantity).imageName(dbGoods.getImageName())
 							.build();
 					
-					realCartGoods.add(goods);
+					realCartGoods.add(goodsInfo);
 					
 				}
 			}
 		}
 		
-		//新增和更新數量不能為空，且新增和更新的數量必須一樣
+		// 新增和更新數量不能為空，且新增和更新的數量必須一樣
 		if(!goodsList.isEmpty() && goodsList.size() == ordersList.size()) {
 			
-			//Batch Input,Batch Update
+			// Batch Input,Batch Update
 			goodsInfoDao.saveAll(goodsList);
 			orderInfoDao.saveAll(ordersList);
 			
