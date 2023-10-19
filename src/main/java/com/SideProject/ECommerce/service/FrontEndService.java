@@ -14,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.SideProject.ECommerce.dao.GoodsInfoDao;
 import com.SideProject.ECommerce.dao.OrderInfoDao;
@@ -68,12 +70,19 @@ public class FrontEndService {
 
 	}
 	
+	/*
+	 1.oracleTransactionManager有設@Primary所以可以不寫
+	 2.預設只有rollback RuntimeException，Exception要rollback就要手動寫
+	 3.預設就是REQUIRED所以可以不寫
+	 使用Transactional開啟交易事務，統一使用同一個connection，發生交易錯誤或例外錯誤就統一rollback
+	*/
+	@Transactional(transactionManager = "oracleTransactionManager", rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public CheckoutCompleteInfo checkoutGoods(MemberInfoVo memberInfo, OrderCustomer customer, List<ShoppingCartGoodsVo> cartGoods) {
 		
 		//只取顧客選的商品ID及選購數量
 		Map<Long, Long> newCarGoods = cartGoods.stream()
                 .collect(Collectors.toMap(
-                        ShoppingCartGoodsVo::getGoodsID,    // 取得ID作為key
+                        ShoppingCartGoodsVo::getGoodsID,  // 取得ID作為key
                         ShoppingCartGoodsVo::getQuantity, // 取得數量作為value
                         Long::sum)); // 如果有重複的ID，將數量相加
 		
