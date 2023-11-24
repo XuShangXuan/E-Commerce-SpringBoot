@@ -1,5 +1,8 @@
 package com.SideProject.ECommerce.tool;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.SideProject.ECommerce.vo.GenericPageable;
 
 public class Page {
@@ -42,11 +45,18 @@ public class Page {
 			endPage = pageTotalCount;
 		}
 		
+		List<Integer> pageRange = new ArrayList();
+		
+		for (int i = startPage; i <= endPage; i++) {
+			pageRange.add(i);
+		}
+		
 		genericPageable = GenericPageable.builder()
 				.currentPage(currentPage).dataTotalCount(dataTotalCount)
 				.pageTotalCount(pageTotalCount).showDataCount(showDataCount)
 				.showPageSize(showPageSize).startPage(startPage)
-				.endPage(endPage).build();
+				.endPage(endPage).pageRange(pageRange)
+				.build();
 		
 		return genericPageable;
 	}

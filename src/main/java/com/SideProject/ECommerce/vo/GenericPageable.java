@@ -1,5 +1,7 @@
 package com.SideProject.ECommerce.vo;
 
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,6 +16,8 @@ public class GenericPageable {
 	private int startPage;
 
 	private int endPage;
+	
+	private List<Integer> pageRange;
 
 	private int showPageSize;
 	
