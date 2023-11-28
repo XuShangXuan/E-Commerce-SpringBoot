@@ -163,7 +163,9 @@ public class MemberController {
 			}
 		 */
 		
-		cartGoods.add(shoppingCartGoodsVo);
+		if (shoppingCartGoodsVo.getQuantity() > 0) {
+			cartGoods.add(shoppingCartGoodsVo);
+		}
 
 		return ResponseEntity.ok(cartGoods);
 	}
