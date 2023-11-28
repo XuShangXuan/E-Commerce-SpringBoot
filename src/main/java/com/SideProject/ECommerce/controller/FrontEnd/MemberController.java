@@ -1,6 +1,8 @@
 package com.SideProject.ECommerce.controller.FrontEnd;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.SideProject.ECommerce.dao.GoodsInfoDao;
 import com.SideProject.ECommerce.dao.MemberInfoDao;
+import com.SideProject.ECommerce.entity.BeverageGoods;
 import com.SideProject.ECommerce.entity.BeverageMember;
 import com.SideProject.ECommerce.vo.MemberInfoVo;
 import com.SideProject.ECommerce.vo.ShoppingCartGoodsVo;
@@ -41,6 +46,9 @@ public class MemberController {
 	
 	@Autowired
 	private MemberInfoDao memberDao;
+	
+	@Autowired
+	private GoodsInfoDao goodsInfoDao;
 
 	@ApiOperation(value = "購物網-會員-檢查登入")
 	@GetMapping(value = "/checkLogin")
@@ -174,7 +182,23 @@ public class MemberController {
 	@GetMapping(value = "/queryCartGoods")
 	public ResponseEntity<List<ShoppingCartGoodsVo>> queryCartGoods() {
 
-		return ResponseEntity.ok(cartGoods);
+		List<ShoppingCartGoodsVo> cartGoodsInfos = cartGoods.stream()
+	            .map(singleCartGoods -> {
+	            	
+	                BeverageGoods goods = goodsInfoDao.findById(singleCartGoods.getGoodsID()).orElse(null);
+
+	                return ShoppingCartGoodsVo.builder()
+	                        .goodsID(goods.getGoodsID())
+	                        .goodsName(goods.getGoodsName())
+	                        .price(goods.getPrice())
+	                        .quantity(singleCartGoods.getQuantity())
+	                        .imageName(goods.getImageName())
+	                        .build();
+	                
+	            })
+	            .collect(Collectors.toList());
+		
+		return ResponseEntity.ok(cartGoodsInfos);
 	}
 	
 	@ApiOperation(value = "清空購物車商品")
