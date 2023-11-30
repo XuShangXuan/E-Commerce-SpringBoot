@@ -26,7 +26,7 @@ import com.SideProject.ECommerce.vo.ShoppingCartGoodsVo;
 
 import io.swagger.annotations.ApiOperation;
 
-@CrossOrigin(value = "http://localhost:3000",  allowCredentials = "true")
+@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true")
 @RestController
 @RequestMapping("/MemberController")
 public class MemberController {
