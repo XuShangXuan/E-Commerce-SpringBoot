@@ -11,6 +11,6 @@ public class CheckoutCompleteInfo {
 	
 	private OrderCustomer customer;
 	
-	List<ShoppingCartGoodsVo> cartGoodsList;
+	private List<ShoppingCartGoodsVo> cartGoodsList;
 	
 }
