@@ -74,7 +74,7 @@ public class BackEndService {
 		// 前端傳入檔案名稱
 		//String fileName = goodsVo.getImageName();
 		
-		Files.copy(file.getInputStream(), Paths.get("/SideProject-Imgs/VendingMachine/DrinksImage").resolve(fileName));
+		Files.copy(file.getInputStream(), Paths.get("src\\main\\webapp\\goodsImg").resolve(fileName));
 		
 		BeverageGoods createGoods = BeverageGoods.builder()
 				.goodsName(goodsVo.getGoodsName())
@@ -119,8 +119,8 @@ public class BackEndService {
 			MultipartFile file = goodsVo.getFile();
 			if(file !=null && file.getSize()>0) {
 				//刪除原本的圖檔
-				Files.delete(Paths.get("/SideProject-Imgs/VendingMachine/DrinksImage").resolve(updateGoods.getImageName()));
-				Files.copy(file.getInputStream(), Paths.get("/SideProject-Imgs/VendingMachine/DrinksImage").resolve(file.getOriginalFilename()));
+				Files.delete(Paths.get("src\\main\\webapp\\goodsImg").resolve(updateGoods.getImageName()));
+				Files.copy(file.getInputStream(), Paths.get("src\\main\\webapp\\goodsImg").resolve(file.getOriginalFilename()));
 			}
 			updateGoods.setImageName(file.getOriginalFilename());
 		}
