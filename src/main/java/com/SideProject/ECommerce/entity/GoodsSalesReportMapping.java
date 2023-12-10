@@ -1,7 +1,5 @@
 package com.SideProject.ECommerce.entity;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Entity;
 import javax.persistence.EntityResult;
 import javax.persistence.FieldResult;
@@ -40,7 +38,7 @@ public class GoodsSalesReportMapping {
 	@Id
 	private long orderID;
 	
-	private LocalDateTime orderDate;
+	private String orderDate;
 	
 	private String customerID;
 	
