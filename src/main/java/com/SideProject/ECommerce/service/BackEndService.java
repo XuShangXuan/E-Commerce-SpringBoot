@@ -158,9 +158,9 @@ public class BackEndService {
 
 		logger.info("計算後的條件資訊:" + condition);
 
-		List<GoodsSalesReportMapping> goodsSalesReports = goodsReportSalesInfoDao.queryGoodsSalesReportByDate(condition);
-		// List<GoodsSalesReportMapping> goodsSalesReports2 = goodsReportSalesInfoDao.criteriaQueryGoodsSalesReportByDate(condition, pageable);
-
+		// List<GoodsSalesReportMapping> goodsSalesReports = goodsReportSalesInfoDao.queryGoodsSalesReportByDate(condition);
+		List<GoodsSalesReportMapping> goodsSalesReports = goodsReportSalesInfoDao.criteriaQueryGoodsSalesReportByDate(condition, pageable);
+		
 		GoodsSalesReportInfo goodsReportSalesInfo = GoodsSalesReportInfo.builder()
 				.goodsSalesDatas(goodsSalesReports).genericPageable(pageable).build();
 
