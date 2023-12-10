@@ -105,10 +105,10 @@ public class GoodsReportSalesInfoDao {
 		CriteriaQuery<GoodsSalesReportMapping> cq = cb.createQuery(GoodsSalesReportMapping.class); //要查詢的欄位
 		Root<BeverageOrder> beverageOrder = cq.from(BeverageOrder.class); //要查詢的Table
 
-		CompoundSelection<GoodsSalesReportMapping> goodsSalesReport= cb.construct(
+		CompoundSelection<GoodsSalesReportMapping> goodsSalesReport = cb.construct(
 	            GoodsSalesReportMapping.class,
 	            beverageOrder.get("orderID"),
-	            beverageOrder.get("orderDate"),
+	            cb.function("TO_CHAR", String.class, beverageOrder.get("orderDate"), cb.literal("YYYY/MM/DD HH24:MI:SS")),
 	            beverageOrder.get("beverageMember").get("identificationNo"),//BeverageOrder的Entity有與BeverageMember正確關聯才可這樣寫
 	            beverageOrder.get("beverageMember").get("customerName"),
 	            beverageOrder.get("beverageGoods").get("goodsName"),//BeverageOrder的Entity有與BeverageGoods正確關聯才可這樣寫
@@ -144,7 +144,7 @@ public class GoodsReportSalesInfoDao {
 		  SELECT NUM.*, ROWNUM ROWNUM_START
 		  FROM
 		  (
-		   SELECT O.ORDER_ID, O.ORDER_DATE, M.CUSTOMER_NAME, O.CUSTOMER_ID, G.GOODS_NAME,
+		   SELECT O.ORDER_ID, TO_CHAR(O.ORDER_DATE, 'YYYY/MM/DD HH24:MI:SS') ORDER_DATE, M.CUSTOMER_NAME, O.CUSTOMER_ID, G.GOODS_NAME,
 	       O.GOODS_BUY_PRICE, O.BUY_QUANTITY, (O.GOODS_BUY_PRICE * O.BUY_QUANTITY) BUY_AMOUNT
 	       FROM
 	       BEVERAGE_ORDER O
@@ -178,7 +178,7 @@ public class GoodsReportSalesInfoDao {
 				.append(" GOODS_NAME, GOODS_BUY_PRICE, BUY_QUANTITY, BUY_AMOUNT ")
 				.append(" FROM ")
 				.append(" ( ")
-				.append("  SELECT O.ORDER_ID, O.ORDER_DATE, M.CUSTOMER_NAME, ")
+				.append("  SELECT O.ORDER_ID, TO_CHAR(O.ORDER_DATE, 'YYYY/MM/DD HH24:MI:SS') ORDER_DATE, M.CUSTOMER_NAME, ")
 				.append("  O.CUSTOMER_ID, G.GOODS_NAME, O.GOODS_BUY_PRICE, ")
 				.append("  O.BUY_QUANTITY, (O.GOODS_BUY_PRICE * O.BUY_QUANTITY) BUY_AMOUNT, ")
 				.append("  ROW_NUMBER() OVER(ORDER BY O.ORDER_ID DESC) NUM ")
