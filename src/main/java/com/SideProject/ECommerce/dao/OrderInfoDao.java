@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.SideProject.ECommerce.entity.BeverageOrder;
 
 @Repository
-public interface OrderInfoDao extends JpaRepository<BeverageOrder, Long>{	
+public interface OrderInfoDao extends JpaRepository<BeverageOrder, Long>{
 	
 }
