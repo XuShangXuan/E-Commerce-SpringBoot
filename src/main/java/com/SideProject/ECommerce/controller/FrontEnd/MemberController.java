@@ -103,12 +103,12 @@ public class MemberController {
 			if (dbId.equals(inputID) && dbPwd.equals(inputPwd)) { //檢查帳密是否正確
 
 				isLogin = true;
-				loginMessage = "登入成功";
+				loginMessage = "";
 				identificationNo = dbId;
 				cusName = dbCusName;
 
 				memberInfo.setIsLogin(true);
-				memberInfo.setLoginMessage("已登入");
+				memberInfo.setLoginMessage("");
 				memberInfo.setIdentificationNo(dbId);
 				memberInfo.setCusName(cusName);
 
@@ -137,11 +137,11 @@ public class MemberController {
 		logger.info("HttpSession logout:" + httpSession.getId());
 
 		MemberInfoVo member = MemberInfoVo.builder()
-				.isLogin(false).loginMessage("已登出")
+				.isLogin(false).loginMessage("")
 				.build();
 		
 		memberInfo.setIsLogin(false);
-		memberInfo.setLoginMessage("尚未登入");
+		memberInfo.setLoginMessage("");
 		memberInfo.setIdentificationNo(null);
 		memberInfo.setCusName(null);
 		
