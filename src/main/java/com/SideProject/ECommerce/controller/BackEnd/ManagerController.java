@@ -91,12 +91,12 @@ public class ManagerController {
 			if (dbId.equals(inputID) && dbPwd.equals(inputPwd)) { //檢查帳密是否正確
 
 				isLogin = true;
-				loginMessage = "管理者登入成功";
+				loginMessage = "";
 				identificationNo = dbId;
 				cusName = dbCusName;
 
 				managerInfo.setIsLogin(true);
-				managerInfo.setLoginMessage("管理者已登入");
+				managerInfo.setLoginMessage("");
 				managerInfo.setIdentificationNo(dbId);
 				managerInfo.setCusName(cusName);
 
@@ -125,11 +125,10 @@ public class ManagerController {
 		logger.info("HttpSession logout:" + httpSession.getId());
 
 		ManagerInfoVo manager = ManagerInfoVo.builder()
-				.isLogin(false).loginMessage("管理者已登出")
+				.isLogin(false).loginMessage("")
 				.build();
 		
 		managerInfo.setIsLogin(false);
-		managerInfo.setLoginMessage("管理者未登入");
 		managerInfo.setIdentificationNo(null);
 		managerInfo.setCusName(null);
 		
