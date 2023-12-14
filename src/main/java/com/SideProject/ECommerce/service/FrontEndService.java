@@ -126,7 +126,7 @@ public class FrontEndService {
 					goodsList.add(goods);
 					
 					// 新增訂單
-					long buyPrice = dbGoods.getPrice() * purchaseQuantity;
+					long buyPrice = dbGoods.getPrice();
 					
 					BeverageOrder order = BeverageOrder.builder()
 							.orderDate(currentTime).customerID(customerID)
