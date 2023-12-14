@@ -12,7 +12,7 @@ public class ManagerConfig {
 	@Bean
 	@SessionScope
 	public ManagerInfoVo sessionManagerInfo() {
-		return ManagerInfoVo.builder().isLogin(false).loginMessage("管理者未登入").build();
+		return ManagerInfoVo.builder().isLogin(false).loginMessage("").build();
 	}
 	
 }
