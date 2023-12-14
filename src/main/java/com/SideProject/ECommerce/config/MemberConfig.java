@@ -16,7 +16,7 @@ public class MemberConfig {
 	@Bean
 	@SessionScope
 	public MemberInfoVo sessionMemberInfo() {
-		return MemberInfoVo.builder().isLogin(false).loginMessage("尚未登入").build();
+		return MemberInfoVo.builder().isLogin(false).loginMessage("").build();
 	}
 	
 	@Bean
