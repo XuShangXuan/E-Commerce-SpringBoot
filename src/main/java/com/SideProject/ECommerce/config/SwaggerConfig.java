@@ -46,7 +46,7 @@ public class SwaggerConfig {
    
    @Bean
    public Docket createFrontEndDocket() {
-      return createDocket("FrontEnd", BackEndInfo(), "com.SideProject.ECommerce.controller.FrontEnd");
+      return createDocket("FrontEnd", FrontEndInfo(), "com.SideProject.ECommerce.controller.FrontEnd");
    }
 
    private ApiInfo FrontEndInfo() {
