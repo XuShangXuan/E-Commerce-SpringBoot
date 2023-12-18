@@ -1,6 +1,6 @@
 # E-Commerce-SpringBoot
 
-## 網站應用技術
+## 網站應用技術Application Technology
 ![N|Solid](https://raw.githubusercontent.com/XuShangXuan/E-Commerce-SpringBoot/main/READMEIMG/E-Connerce-BackEndImg.png)
 
 ## 資料庫關聯圖ERD
